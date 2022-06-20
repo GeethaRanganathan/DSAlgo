@@ -1,0 +1,16 @@
+public class MinimumPicks {
+    public int minPicks(ArrayList<Integer> A) {
+        int min = 99999999;
+        int max = -999999999;
+
+        for (int i=0; i<A.size();i++){
+            if ((A.get(i) % 2 != 0) && A.get(i)<min){
+                min = A.get(i);
+            }
+            if ((A.get(i) % 2 == 0) && A.get(i)>max){
+                max = A.get(i);
+            }
+        }
+        return (max-min);
+    }
+}
