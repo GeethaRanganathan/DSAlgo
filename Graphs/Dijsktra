@@ -1,0 +1,70 @@
+public class Solution {
+
+    class Edge {
+        Integer vertex;
+        Integer weight;
+
+        Edge(Integer vertex, Integer weight) {
+            this.vertex = vertex;
+            this.weight = weight;
+        }
+    }
+
+    private ArrayList<ArrayList<Edge>> initializedGraph(Integer size) {
+        ArrayList<ArrayList<Edge>> graph = new ArrayList<ArrayList<Edge>>();
+        for (int i = 0; i < size; i++) {
+            graph.add(new ArrayList<Edge>());
+        }
+        return graph;
+    }
+
+    private void populateGraph(ArrayList<ArrayList<Integer>> B,ArrayList<ArrayList<Edge>> graph) {
+        for (ArrayList<Integer> input: B) {
+            graph.get(input.get(0)).add(new Edge(input.get(1), input.get(2)));
+            // undirected graph
+            graph.get(input.get(1)).add(new Edge(input.get(0), input.get(2)));
+        }
+    }
+
+    public ArrayList<Integer> solve(int A, ArrayList<ArrayList<Integer>> B, int C) {
+        ArrayList<ArrayList<Edge>> graph = initializedGraph(A);
+        populateGraph(B,graph);
+        
+        ArrayList<Integer> dist = new ArrayList<>();
+        for (int i=0;i<A;i++){
+            if (i==C){
+                dist.add(0);
+            }else{
+                dist.add(Integer.MAX_VALUE);
+            }
+        }
+        PriorityQueue<Edge> queue = new PriorityQueue <> ((a,b) -> a.weight.compareTo(b.weight));
+        HashSet<Integer> visited = new HashSet<>();
+        queue.add(new Edge(C,0));
+        while (!queue.isEmpty()){
+            Edge x = queue.poll();
+            int u = x.vertex;
+            int d = x.weight;
+            if (d==dist.get(u)){
+                for (int i=0;i<graph.get(u).size();i++){
+                    Edge y = graph.get(u).get(i);
+                    int v=y.vertex;
+                    int w=y.weight;
+                    if (dist.get(u) + w < dist.get(v)){
+                        dist.set(v,dist.get(u) + w);
+                        queue.add(new Edge(v,dist.get(v)));
+                    }
+                }
+            }
+        }      
+
+        ListIterator<Integer> it = dist.listIterator();
+        while(it.hasNext()){
+            int i=it.next();
+            if (i==Integer.MAX_VALUE){
+                it.set(-1);
+            }
+        }
+        return dist;    
+    }
+}
