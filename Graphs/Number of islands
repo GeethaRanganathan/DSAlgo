@@ -1,0 +1,35 @@
+public class Solution {
+    public int solve(ArrayList<ArrayList<Integer>> A) {
+        if (A==null || A.size() == 0){
+            return 0;
+        }
+        int nr = A.size();
+        int nc = A.get(0).size();
+        int num = 0;
+        for (int r=0; r<nr;++r){
+            for (int c=0;c<nc;++c){
+                if (A.get(r).get(c) == 1){
+                    num++;
+                    dfs(A, r, c);
+                }
+            }
+        }
+        return num;
+    }
+    public void dfs(ArrayList<ArrayList<Integer>> A, int r, int c){
+        int nr = A.size();
+        int nc = A.get(0).size();
+        if (r<0 || c<0 || r>= nr || c>=nc || A.get(r).get(c) == 0){
+            return;
+        }
+        A.get(r).set(c,0);
+        dfs(A, r-1, c);
+        dfs(A, r+1, c);
+        dfs(A, r, c-1);
+        dfs(A, r, c+1);
+        dfs(A, r+1, c+1);
+        dfs(A, r-1, c-1);
+        dfs(A, r+1, c-1);
+        dfs(A, r-1, c+1);
+    }
+}
