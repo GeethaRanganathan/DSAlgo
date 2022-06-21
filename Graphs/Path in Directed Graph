@@ -1,0 +1,22 @@
+public class Solution {
+    public int solve(int A, ArrayList<ArrayList<Integer>> B) {
+        Queue<Integer> que = new LinkedList<>();
+        Set<Integer> set = new HashSet();
+        que.add(1);
+        while (que.size()>0){
+            int temp = que.poll();
+            set.add(temp);
+            for (int i=0;i<B.size();i++){
+                ArrayList<Integer> list = B.get(i);
+                if (list.get(1)==A){
+                    return 1;
+                }
+                if (list.get(0) == temp && !set.contains(list.get(1))){
+                    set.add(list.get(1));
+                    que.add(list.get(1));
+                }
+            }
+        }
+        return 0;
+    }
+}
