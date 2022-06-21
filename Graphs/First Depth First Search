@@ -1,0 +1,28 @@
+public class Solution {
+    public int solve(ArrayList<Integer> A, final int B, final int C) {
+        HashMap<Integer, ArrayList<Integer>> graph = new HashMap<>();
+        for (int i=1;i<A.size();i++){
+            if (!graph.containsKey(A.get(i))){
+                graph.put(A.get(i),new ArrayList<>());
+            }
+            graph.get(A.get(i)).add(i+1);
+        }
+        if (dfs(C, B, graph)){
+            return 1;
+        } 
+        return 0;
+    }
+    boolean dfs(int src, int dest, HashMap<Integer, ArrayList<Integer>> graph){
+        if (src == dest){
+            return true;
+        }
+        if (Objects.nonNull(graph.get(src))){
+            for (int nbr : graph.get(src)){
+                if (dfs(nbr, dest, graph)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+}
