@@ -1,0 +1,11 @@
+package com.practice.bitManipulation;
+
+public class SingleNum {
+    public int singleNumber(final List<Integer> A) {
+        int singleEle=A.get(0);
+        for (int i=1;i<A.size();i++){
+            singleEle^=A.get(i);
+        }
+        return singleEle;
+    }
+}
